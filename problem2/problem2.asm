@@ -6,9 +6,6 @@ name_len equ $ - name
 age db "How old are you? "
 age_len equ $ - age
 
-gender db "What is your gender? "
-gender_len equ $ - gender
-
 level db "What is your year level? ", 10
 level_len equ $ - level
 
