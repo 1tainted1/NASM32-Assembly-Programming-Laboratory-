@@ -6,7 +6,7 @@ name_len equ $ - name
 age db "How old are you? "
 age_len equ $ - age
 
-level db "What is your year level? ", 10
+level db "What is your year level? "
 level_len equ $ - level
 
 hello db "Hello! "
@@ -30,10 +30,17 @@ j_len equ $ - j
 se db "senior", 10
 se_len equ $ - se
 
+invalid db "INVALID YEAR LEVEL", 10
+invalid_len equ $ - invalid
+
 section .bss
-    n resb 10
-    a resb 10
-    l resb 10
+    n resb 100
+    a resb 100
+    l resb 100
+
+    n_len resd 1
+    a_len resd 1
+    l_len resd 1
 
 section .text
     global _start
@@ -43,8 +50,9 @@ _start:
     mov edx, name_len
     call printString
     mov ecx, n
-    mov edx, 10
+    mov edx, 100
     call readString
+    mov [n_len], eax
 
     mov ecx, age
     mov edx, age_len
@@ -52,6 +60,8 @@ _start:
     mov ecx, a
     mov edx, 10
     call readString
+    dec eax
+    mov [a_len], eax
 
     mov ecx, level
     mov edx, level_len
@@ -59,19 +69,20 @@ _start:
     mov ecx, l
     mov edx, 10
     call readString
+    mov [l_len], eax
 
     mov ecx, hello
     mov edx, hello_len
     call printString
     mov ecx, n
-    mov edx, 10
+    mov edx, [n_len]
     call printString
 
     mov ecx, greet1
     mov edx, greet1_len
     call printString
     mov ecx, a
-    mov edx, 10
+    mov edx, [a_len]
     call printString
     mov ecx, greet2
     mov edx, greet2_len
@@ -98,32 +109,33 @@ yearequivalent:
     cmp al, '4'
     je printSe
 
+    mov ecx, invalid
+    mov edx, invalid_len
+    call printString
+    ret
+
 printF:
     mov ecx, f
     mov edx, f_len
     call printString
-    int 0x80
     ret
 
 printSo:
     mov ecx, so
     mov edx, so_len
     call printString
-    int 0x80
     ret
 
 printSe:
     mov ecx, se
     mov edx, se_len
     call printString
-    int 0x80
     ret
 
 printJ:
     mov ecx, j
     mov edx, j_len
     call printString
-    int 0x80
     ret
 
 printString: 
