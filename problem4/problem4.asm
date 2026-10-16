@@ -39,7 +39,7 @@ section .bss
     n resb 100
     p resb 100
     w resb 100
-    numbuf resb 16
+    numbuf resb 25
 
     n_len resd 1
     p_res_len resd 1
